@@ -121,7 +121,6 @@ Tagged significant milestones in the repository.
 Handled edge cases (e.g., empty responses, invalid data).
 Used Postman for endpoint validation.
 7️⃣ Peer Reviews
-
 Shared code and documentation for feedback.
 Incorporated suggestions to improve quality.
 
@@ -129,4 +128,24 @@ Incorporated suggestions to improve quality.
 
 This journey is teaching me so much about collaboration, problem-solving, and technical precision. 💡 Excited for what’s ahead on Day 3!
 
+
+🚀 Hackathon Achievement! 🚀
+
+I'm thrilled to share that I successfully completed a 3-day hackathon with 4 major tasks. During this challenge, I implemented a range of features for a dynamic and user-friendly web application. Here's what I accomplished:
+
+1️⃣ Dynamic Routing for Product Display - Ensured seamless navigation for showcasing products.
+2️⃣ Cart Components - Integrated a smooth shopping cart experience.
+3️⃣ Login Page - Developed a secure login page for user authentication.
+4️⃣ Product Listing - Designed an interactive listing page for products.
+5️⃣ Dynamic Components - Added flexibility to the interface with dynamic elements.
+6️⃣ FAQs & Customer Help Page - Built an informative support page to enhance customer experience.
+7️⃣ Billing Page - Developed an efficient billing page for easy payment management.
+8️⃣ Checkout Page - Implemented a smooth and secure checkout process for users.
+
+✨ Further Updates:
+More exciting features and updates are yet to come! Please note, this document represents the work done up until today, and ongoing updates will be added as we move forward.
+
+Stay tuned for more! 💻✨
+
+#hackathon #webdevelopment #react #nextjs #ecommerce #UIUX #coding #developer #womenintech
 #Hackathon #UIUX #WebDevelopment #Sanity #NextJS #TechJourney #GrowthMindset #WomenInTech
