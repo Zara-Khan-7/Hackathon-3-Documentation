@@ -1,0 +1,12 @@
+TestCaseId,Description,Steps,ExpectedResult,ActualResult,Status,SeverityLevel,AssignedTo,Remarks,,
+TC001,Verify login functionality,"1. Open login page
+2. Enter valid credentials
+3. Click 'Login'",User successfully logged in,User successfully logged in,Passed,Low,N/A,Test passed as expected.,,
+TC002,Test invalid credentials,"1. Open login page
+2. Enter invalid credentials
+3. Click 'Login'","Show Error Message,Invalid Credentials",Error message displayed,Passed,Low,John Doe,Works as Expected,,
+TC003,Validate cart functionality,"1. Add product to cart
+2. View cart",Product appears in the cart,Product appears in the cart,Passed,Low,N/A,Works as expected.,,
+TC004,Test checkout flow,"1. Add product to cart
+2. Proceed to checkout
+3. Enter payment details",Order placed successfully,Order placed successfully,Passed,Low,Jane Smith,Work as expected,,

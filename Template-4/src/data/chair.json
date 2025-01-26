@@ -1,0 +1,236 @@
+{
+    "products": [
+      {
+        "id": "1",
+        "name": "Tribù Elio Chair",
+        "imagePath": "https://next-ecommerce-template-4.vercel.app/product/Chair (5).png",
+        "price": "1200",
+        "description": "A sleek outdoor chair with natural wooden elements and a modern look.",
+        "discountPercentage": 10,
+        "isFeaturedProduct": true,
+        "stockLevel": 25,
+        "category": "Chair"
+      },
+      {
+        "id": "2",
+        "name": "Armchair Tortuga",
+        "imagePath": "https://next-ecommerce-template-4.vercel.app/product/Chair (35).png",
+        "price": "850",
+        "description": "An elegant armchair with plush cushions and a curved design for comfort.",
+        "discountPercentage": 0,
+        "isFeaturedProduct": false,
+        "stockLevel": 10,
+        "category": "Chair"
+      },
+      {
+        "id": "3",
+        "name": "Uchiwa Quilted Lounge Chair",
+        "imagePath": "https://next-ecommerce-template-4.vercel.app/product/Chair (6).png",
+        "price": "1600",
+        "description": "A spacious lounge chair with a quilted back and soft cushioning.",
+        "discountPercentage": 20,
+        "isFeaturedProduct": true,
+        "stockLevel": 5,
+        "category": "Chair"
+      },
+      {
+        "id": "4",
+        "name": "Stylish Golden Metal Legs Mint Blue Fabric Velvet Sofa Leisure Armchair",
+        "imagePath": "https://next-ecommerce-template-4.vercel.app/product/Chair (3).png",
+        "price": "780",
+        "description": "A luxurious armchair with velvet fabric and golden metal legs.",
+        "discountPercentage": 0,
+        "isFeaturedProduct": false,
+        "stockLevel": 12,
+        "category": "Sofa"
+      },
+      {
+        "id": "5",
+        "name": "Hans Wegner Style Three-Legged Shell Chair",
+        "imagePath": "https://next-ecommerce-template-4.vercel.app/product/Chair (4).png",
+        "price": "990",
+        "description": "Iconic three-legged chair with faux leather and ash plywood frame.",
+        "discountPercentage": 10,
+        "isFeaturedProduct": false,
+        "stockLevel": 8,
+        "category": "Chair"
+      },
+      {
+        "id": "6",
+        "name": "Rapson Thirty-Nine Guest Chair",
+        "imagePath": "https://next-ecommerce-template-4.vercel.app/product/Chair (7).png",
+        "price": "1300",
+        "description": "A mid-century modern chair with clean lines and durable materials.",
+        "discountPercentage": 15,
+        "isFeaturedProduct": true,
+        "stockLevel": 20,
+        "category": "Chair"
+      },
+      {
+        "id": "7",
+        "name": "Nautilus Lounge Chair",
+        "imagePath": "https://next-ecommerce-template-4.vercel.app/product/Chair (8).png",
+        "price": "1450",
+        "description": "A lounge chair with a shell-inspired design and premium upholstery.",
+        "discountPercentage": 12,
+        "isFeaturedProduct": true,
+        "stockLevel": 10,
+        "category": "Chair"
+      },
+      {
+        "id": "8",
+        "name": "High Quality Modern Customized Plastic Chair",
+        "imagePath": "https://next-ecommerce-template-4.vercel.app/product/Chair (9).png",
+        "price": "150",
+        "description": "A simple and lightweight chair ideal for dining or casual use.",
+        "discountPercentage": 0,
+        "isFeaturedProduct": false,
+        "stockLevel": 50,
+        "category": "Chair"
+      },
+      {
+        "id": "9",
+        "name": "Cozy Armchair",
+        "imagePath": "https://next-ecommerce-template-4.vercel.app/product/Chair (10).png",
+        "price": "520",
+        "description": "Compact armchair with a cozy design for small spaces.",
+        "discountPercentage": 8,
+        "isFeaturedProduct": false,
+        "stockLevel": 15,
+        "category": "Chair"
+      },
+      {
+        "id": "10",
+        "name": "Alpha Chair – Solid Ebonised Oak",
+        "imagePath": "https://next-ecommerce-template-4.vercel.app/product/Chair (11).png",
+        "price": "900",
+        "description": "A sturdy oak chair with a sleek and minimalist design.",
+        "discountPercentage": 10,
+        "isFeaturedProduct": false,
+        "stockLevel": 18,
+        "category": "Chair"
+      },
+      {
+        "id": "11",
+        "name": "Replica Hans Wegner Wishbone Chair",
+        "imagePath": "https://next-ecommerce-template-4.vercel.app/product/Chair (12).png",
+        "price": "750",
+        "description": "Classic wishbone chair with a dark walnut frame and cord seat.",
+        "discountPercentage": 10,
+        "isFeaturedProduct": false,
+        "stockLevel": 25,
+        "category": "Chair"
+      },
+      {
+        "id": "12",
+        "name": "Futuristic Sleek Modern Chair",
+        "imagePath": "https://next-ecommerce-template-4.vercel.app/product/Chair (14).png",
+        "price": "2000",
+        "description": "A modern chair with a carbon fiber frame and bold red accents.",
+        "discountPercentage": 0,
+        "isFeaturedProduct": true,
+        "stockLevel": 3,
+        "category": "Chair"
+      },
+      {
+        "id": "13",
+        "name": "Liberty Wood 63' Floating Entertainment Center",
+        "imagePath": "https://next-ecommerce-template-4.vercel.app/product/Chair (15).png",
+        "price": "1100",
+        "description": "Versatile entertainment chair for modern interiors.",
+        "discountPercentage": 8,
+        "isFeaturedProduct": false,
+        "stockLevel": 7,
+        "category": "Chair"
+      },
+      {
+        "id": "14",
+        "name": "Leisure Sofa Chair Set",
+        "imagePath": "https://next-ecommerce-template-4.vercel.app/product/Chair (16).png",
+        "price": "1800",
+        "description": "A comfortable set of chairs with soft cushions for relaxation.",
+        "discountPercentage": 18,
+        "isFeaturedProduct": true,
+        "stockLevel": 6,
+        "category": "Sofa"
+      },
+      {
+        "id": "15",
+        "name": "Diondre Chair - Tuft Button - Acrylic Legs",
+        "imagePath": "https://next-ecommerce-template-4.vercel.app/product/Chair (17).png",
+        "price": "720",
+        "description": "A tufted chair with acrylic legs for a chic, modern touch.",
+        "discountPercentage": 7,
+        "isFeaturedProduct": false,
+        "stockLevel": 10,
+        "category": "Chair"
+      },
+      {
+        "id": "16",
+        "name": "Matilda Velvet Chair – Pink",
+        "imagePath": "https://next-ecommerce-template-4.vercel.app/product/Chair (18).png",
+        "price": "600",
+        "description": "A vibrant pink velvet chair with a retro-inspired design.",
+        "discountPercentage": 15,
+        "isFeaturedProduct": true,
+        "stockLevel": 12,
+        "category": "Chair"
+      },
+      {
+        "id": "17",
+        "name": "Varmora Plastic Chair Solid",
+        "imagePath": "https://next-ecommerce-template-4.vercel.app/product/Chair (19).png",
+        "price": "100",
+        "description": "Durable and lightweight plastic chair for everyday use.",
+        "discountPercentage": 25,
+        "isFeaturedProduct": false,
+        "stockLevel": 100,
+        "category": "Chair"
+      },
+      {
+        "id": "18",
+        "name": "Sobuy Blue Folding Chair Wooden Padded",
+        "imagePath": "https://next-ecommerce-template-4.vercel.app/product/Chair (21).png",
+        "price": "120",
+        "description": "A foldable wooden chair with a padded seat for extra comfort.",
+        "discountPercentage": 12,
+        "isFeaturedProduct": false,
+        "stockLevel": 30,
+        "category": "Chair"
+      },
+      {
+        "id": "19",
+        "name": "Nordic Net Red Chair",
+        "imagePath": "https://next-ecommerce-template-4.vercel.app/product/Chair (22).png",
+        "price": "320",
+        "description": "An acrylic dining chair with a sleek and minimalist Nordic design.",
+        "discountPercentage": 10,
+        "isFeaturedProduct": true,
+        "stockLevel": 20,
+        "category": "Chair"
+      },
+      {
+        "id": "20",
+        "name": "Cantilever Chair",
+        "imagePath": "https://next-ecommerce-template-4.vercel.app/product/Chair (23).png",
+        "price": "780",
+        "description": "A modern cantilever chair with a unique floating effect.",
+        "discountPercentage": 15,
+        "isFeaturedProduct": true,
+        "stockLevel": 5,
+        "category": "Chair"
+      },
+      {
+        "id": "21",
+        "name": "Luxury Flower Shell Sofa Chair",
+        "imagePath": "https://next-ecommerce-template-4.vercel.app/product/Chair (34).png",
+        "price": "2500",
+        "description": "A luxurious shell-shaped chair with gold brass metal legs.",
+        "discountPercentage": 0,
+        "isFeaturedProduct": true,
+        "stockLevel": 2,
+        "category": "Sofa"
+      }
+    ]
+  }
+  
