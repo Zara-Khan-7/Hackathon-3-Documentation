@@ -6,11 +6,11 @@ import Header from '../components/Header';
 import Footer from '../components/Footer';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { Provider, useDispatch, useSelector } from 'react-redux';
-import store, { RootState } from '../store/store';
-import { addToCart, removeFromCart, updateQuantity } from '../store/cartSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '../store/store';
+import { removeFromCart, updateQuantity } from '../store/cartSlice';
 import { CartItem } from '../type';
-import CartProvider from '../components/CartProvider';
+
 
 
 const Cart = () => {
@@ -61,7 +61,7 @@ const Cart = () => {
     <div>
       
       <Header />
-      <ToastContainer autoClose={3000} />
+      <ToastContainer autoClose={1000} />
 
       {/* Delete Confirmation Modal */}
       {showDeleteConfirmation && itemToDelete && (

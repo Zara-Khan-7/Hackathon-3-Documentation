@@ -56,3 +56,12 @@ export type Address = {
     estimatedDeliveryDate?: string;
     actualDeliveryDate?: string;
   }
+
+  export type CartItem = {
+    id: string;
+    name: string;
+    price: number;
+    quantity: number;
+    img: string;
+  };
+  

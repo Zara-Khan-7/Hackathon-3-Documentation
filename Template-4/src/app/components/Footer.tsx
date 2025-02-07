@@ -1,5 +1,6 @@
 'use client';
 
+import Link from 'next/link';
 import React, { useState } from 'react';
 import { FaFacebookF, FaTwitter, FaInstagram } from 'react-icons/fa';
 
@@ -74,12 +75,12 @@ function Footer() {
         <div>
           <h2 className="text-[#151875] text-xl font-semibold mb-4">Pages</h2>
           <ul className="space-y-2">
-            <li>About us</li>
-            <li>Featured Products</li>
-            <li>Latest Products</li>
-            <li>Trending Products</li>
-            <li>Blogs</li>
-            <li>Login</li>
+            <li><Link href={'/contact-us'}>About us</Link></li>
+            <li><Link href={'/featuredproducts'}>Featured Products</Link></li>
+            <li><Link href={'/latestproducts'}>Latest Products</Link></li>
+            <li><Link href={'/trendingproducts'}>Trending Products</Link></li>
+            <li><Link href={'/blog'}>Blogs</Link></li>
+            <li><Link href={'/account'}>Login</Link></li>
           </ul>
         </div>
       </div>
@@ -87,7 +88,7 @@ function Footer() {
       {/* Footer Bottom */}
       <div className="mt-12 border-t border-gray-200 pt-8">
         <div className="flex justify-between items-center w-[90%] mx-auto">
-          <p className="text-gray-500">&copy; Webecy - All Rights Reserved.</p>
+          <p className="text-gray-500">&copy; Zara/Rabeeka  - All Rights Reserved.</p>
           <div className="flex space-x-4">
             <a href="" className="w-8 h-8 rounded-full bg-[#151875] flex items-center justify-center text-white hover:bg-blue-700">
               <FaFacebookF />

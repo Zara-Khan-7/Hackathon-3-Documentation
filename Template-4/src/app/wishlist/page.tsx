@@ -1,85 +1,135 @@
-'use client';
-
-import React, { useState, useEffect } from 'react';
+'use client'
+import React, { useState } from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
+import Header from '../components/Header';
+import Footer from '../components/Footer';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import Footer from '../components/Footer';
-import Header from '../components/Header';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '../store/store';
+import { removeFromWishlist } from '../store/wishlistSlice';
+import { CartItem } from '../type';
 
-type Product = {
-  _id: string;
-  imageUrl: string;
-  name: string;
-  price: number;
-  description: string;
-};
+const Wishlist = () => {
+  const dispatch = useDispatch();
+  const wishlistItems = useSelector((state: RootState) => state.wishlist.items);
+  const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
+  const [itemToDelete, setItemToDelete] = useState<CartItem | null>(null);
 
-const WishlistPage = () => {
-  const [wishlist, setWishlist] = useState<Product[]>([]);
+  // Handle deleting an item from wishlist
+  const confirmDelete = (item: CartItem) => {
+    setItemToDelete(item);
+    setShowDeleteConfirmation(true);
+  };
 
-  useEffect(() => {
-    const savedWishlist = JSON.parse(localStorage.getItem('wishlist') || '[]');
-    setWishlist(savedWishlist);
-  }, []);
+  const handleDeleteItem = () => {
+    if (itemToDelete) {
+      dispatch(removeFromWishlist(itemToDelete.id)); // id is now a string
+      toast.success(`${itemToDelete.name} removed from your wishlist!`);
+    }
+    setShowDeleteConfirmation(false);
+  };
 
-  const removeFromWishlist = (productId: string) => {
-    const updatedWishlist = wishlist.filter((item) => item._id !== productId);
-    setWishlist(updatedWishlist);
-    localStorage.setItem('wishlist', JSON.stringify(updatedWishlist));
-    toast.info('Item removed from wishlist!');
+  const handleCancelDelete = () => {
+    setShowDeleteConfirmation(false);
   };
 
   return (
+    <div>
+      <Header />
+      <ToastContainer autoClose={1000} />
 
-    <>
-        {/* Header */}
-        <Header/>
-
-
-    <div className="w-full bg-white py-20">
-      <ToastContainer position="top-right" autoClose={3000} />
-
-      <h2 className="text-black text-4xl text-center mb-16 font-bold">Your Wishlist</h2>
-
-      {wishlist.length > 0 ? (
-        <div className="w-full max-w-screen-xl mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8">
-          {wishlist.map((product) => (
-            <div key={product._id} className="relative group">
-              <div className="w-full bg-gray-200 flex justify-center items-center relative overflow-hidden h-[400px]">
-                <Image
-                  src={product.imageUrl}
-                  width={200}
-                  height={250}
-                  alt={product.name}
-                  className=" w-[200px] h-[250px] transition-all duration-300 group-hover:scale-105"
-                />
-              </div>
-
-              <div className="text-center mt-4">
-                <h3 className="text-lg font-semibold text-red-500">{product.name}</h3>
-                <p className="mt-2 text-gray-600">{product.description}</p>
-                <p className="mt-1 text-dark-blue-900">${product.price}</p>
-              </div>
-
+      {/* Delete Confirmation Modal */}
+      {showDeleteConfirmation && itemToDelete && (
+        <div className="fixed inset-0 flex justify-center items-center bg-gray-800 bg-opacity-50 z-50">
+          <div className="bg-white text-black px-6 py-4 rounded-lg shadow-lg font-bold text-xl space-y-4 text-center w-1/2">
+            <p>Are you sure you want to remove {itemToDelete.name} from your wishlist?</p>
+            <div className="space-x-4 mt-4">
               <button
-                onClick={() => removeFromWishlist(product._id)}
-                className="w-full py-2 mt-4 bg-red-500 text-white rounded hover:bg-red-700 transition-colors"
+                className="bg-[#3F509E] text-white px-6 py-2 rounded-lg hover:bg-[#2b3a7d] transition duration-300"
+                onClick={handleDeleteItem}
               >
-                Remove from Wishlist
+                Yes, Remove Item
+              </button>
+              <button
+                className="bg-red-500 text-white px-6 py-2 rounded-lg hover:bg-red-600 transition duration-300"
+                onClick={handleCancelDelete}
+              >
+                Cancel
               </button>
             </div>
-          ))}
+          </div>
         </div>
-      ) : (
-        <p className="text-center text-gray-500 text-xl">Your wishlist is empty.</p>
       )}
-    </div>
 
-    {/* Footer */}
-    <Footer/>
-    </>
+      {/* Main Wishlist Layout */}
+      <div className="p-6 lg:p-12 grid grid-cols-1 lg:grid-cols-3 gap-8">
+        {/* Wishlist Items Section */}
+        <div className="lg:col-span-2">
+          <h2 className="text-2xl font-bold mb-6 text-[#1D3178]">Your Wishlist</h2>
+          {wishlistItems.length > 0 ? (
+            <div className="space-y-6">
+              {wishlistItems.map((item) => (
+                <div
+                  key={item._id}
+                  className="flex items-center justify-between bg-white p-4 rounded-lg shadow-md"
+                >
+                  <div className="flex items-center space-x-4">
+                    <Image
+                      src={item.imageUrl}
+                      alt={item.name}
+                      width={80}
+                      height={80}
+                      className="w-20 h-20 rounded-lg object-cover"
+                    />
+                    <div>
+                      <p className="font-semibold text-[#1D3178]">{item.name}</p>
+                      <p className="text-sm text-gray-500">Price: ${item.price}</p>
+                    </div>
+                  </div>
+                  <div className="flex items-center space-x-6">
+                    {/* Add to Cart Button */}
+                    {/* <Link href="/cart">
+                      <button
+                        className="px-4 py-2 bg-[#3F509E] text-white rounded-md text-sm hover:bg-[#2b3a7d]"
+                      >
+                        Add to Cart
+                      </button>
+                    </Link> */}
+                    {/* Delete Button
+                    <button
+                      onClick={() => confirmDelete(item)}
+                      className="px-2 py-1 bg-red-500 text-white rounded-md text-sm hover:bg-red-600"
+                    >
+                      Remove
+                    </button> */}
+                  </div>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <p className="text-[#1D3178] text-center mt-6">
+              Your wishlist is empty. Start adding products!
+            </p>
+          )}
+        </div>
+
+        {/* Wishlist Actions Section */}
+        <div className="bg-white p-6 rounded-lg shadow-md">
+          <Link href="/products">
+            <button
+              className="w-full py-3 bg-[#08D15F] text-white rounded-md font-semibold hover:bg-green-700"
+            >
+              Continue Shopping
+            </button>
+          </Link>
+        </div>
+      </div>
+
+      <Footer />
+    </div>
   );
 };
 
-export default WishlistPage;
+export default Wishlist;

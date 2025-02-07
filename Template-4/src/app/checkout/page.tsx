@@ -1,10 +1,13 @@
-'use client';
-import Link from "next/link";
-import React, { useState } from "react";
+"use client";
+
+import React, { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
+import { CartItem } from "../../../type";
 
 const CheckoutPage = () => {
+  const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const [formData, setFormData] = useState({
     fullName: "",
     email: "",
@@ -16,14 +19,57 @@ const CheckoutPage = () => {
     paymentMethod: "creditCard",
   });
 
+  const router = useRouter();
+
+  // Load cart items from localStorage
+  useEffect(() => {
+    const storedCart = localStorage.getItem("cart");
+    if (storedCart) {
+      setCartItems(JSON.parse(storedCart));
+    }
+  }, []);
+
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    alert("Order Placed Successfully!");
+
+    if (cartItems.length === 0) {
+      alert("Your cart is empty. Please add items before placing an order.");
+      return;
+    }
+
+    const orderData = {
+      customer: { ...formData },
+      items: cartItems,
+      paymentMethod: formData.paymentMethod,
+      status: "Pending",
+      createdAt: new Date().toISOString(),
+    };
+
+    try {
+      const response = await fetch("/api/order", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(orderData),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to place order.");
+      }
+
+      const data = await response.json();
+      console.log("Order Created:", data);
+
+      localStorage.removeItem("cart"); // Clear cart after successful order placement
+      router.push("/ordercompleted");
+    } catch (error) {
+      console.error("Error placing order:", error);
+      alert("Something went wrong. Please try again.");
+    }
   };
 
   return (
@@ -34,133 +80,26 @@ const CheckoutPage = () => {
           <h1 className="text-3xl font-bold text-center text-[#1D3178] mb-8">Billing Information</h1>
 
           <form onSubmit={handleSubmit} className="space-y-6">
-            {/* Full Name */}
-            <div>
-              <label htmlFor="fullName" className="block text-sm font-semibold text-gray-700">
-                Full Name
-              </label>
-              <input
-                type="text"
-                name="fullName"
-                id="fullName"
-                value={formData.fullName}
-                onChange={handleInputChange}
-                className="mt-2 block w-full p-3 border rounded-md focus:ring focus:ring-pink-500 focus:outline-none"
-                placeholder="Enter your full name"
-                required
-              />
-            </div>
-
-            {/* Email */}
-            <div>
-              <label htmlFor="email" className="block text-sm font-semibold text-gray-700">
-                Email
-              </label>
-              <input
-                type="email"
-                name="email"
-                id="email"
-                value={formData.email}
-                onChange={handleInputChange}
-                className="mt-2 block w-full p-3 border rounded-md focus:ring focus:ring-pink-500 focus:outline-none"
-                placeholder="Enter your email"
-                required
-              />
-            </div>
-
-            {/* Phone */}
-            <div>
-              <label htmlFor="phone" className="block text-sm font-semibold text-gray-700">
-                Phone
-              </label>
-              <input
-                type="tel"
-                name="phone"
-                id="phone"
-                value={formData.phone}
-                onChange={handleInputChange}
-                className="mt-2 block w-full p-3 border rounded-md focus:ring focus:ring-pink-500 focus:outline-none"
-                placeholder="Enter your phone number"
-                required
-              />
-            </div>
-
-            {/* Address */}
-            <div>
-              <label htmlFor="address" className="block text-sm font-semibold text-gray-700">
-                Address
-              </label>
-              <input
-                type="text"
-                name="address"
-                id="address"
-                value={formData.address}
-                onChange={handleInputChange}
-                className="mt-2 block w-full p-3 border rounded-md focus:ring focus:ring-pink-500 focus:outline-none"
-                placeholder="Enter your address"
-                required
-              />
-            </div>
-
-            {/* City */}
-            <div>
-              <label htmlFor="city" className="block text-sm font-semibold text-gray-700">
-                City
-              </label>
-              <input
-                type="text"
-                name="city"
-                id="city"
-                value={formData.city}
-                onChange={handleInputChange}
-                className="mt-2 block w-full p-3 border rounded-md focus:ring focus:ring-pink-500 focus:outline-none"
-                placeholder="Enter your city"
-                required
-              />
-            </div>
-
-            {/* Postal Code */}
-            <div>
-              <label htmlFor="postalCode" className="block text-sm font-semibold text-gray-700">
-                Postal Code
-              </label>
-              <input
-                type="text"
-                name="postalCode"
-                id="postalCode"
-                value={formData.postalCode}
-                onChange={handleInputChange}
-                className="mt-2 block w-full p-3 border rounded-md focus:ring focus:ring-pink-500 focus:outline-none"
-                placeholder="Enter your postal code"
-                required
-              />
-            </div>
-
-            {/* Country */}
-            <div>
-              <label htmlFor="country" className="block text-sm font-semibold text-gray-700">
-                Country
-              </label>
-              <input
-                type="text"
-                name="country"
-                id="country"
-                value={formData.country}
-                onChange={handleInputChange}
-                className="mt-2 block w-full p-3 border rounded-md focus:ring focus:ring-pink-500 focus:outline-none"
-                placeholder="Enter your country"
-                required
-              />
-            </div>
+            {["fullName", "email", "phone", "address", "city", "postalCode", "country"].map((field) => (
+              <div key={field}>
+                <label className="block text-sm font-semibold text-gray-700">{field.replace(/([A-Z])/g, " $1")}</label>
+                <input
+                  type="text"
+                  name={field}
+                  value={formData[field as keyof typeof formData]}
+                  onChange={handleInputChange}
+                  className="mt-2 block w-full p-3 border rounded-md focus:ring focus:ring-pink-500 focus:outline-none"
+                  placeholder={`Enter your ${field}`}
+                  required
+                />
+              </div>
+            ))}
 
             {/* Payment Method */}
             <div>
-              <label htmlFor="paymentMethod" className="block text-sm font-semibold text-gray-700">
-                Payment Method
-              </label>
+              <label className="block text-sm font-semibold text-gray-700">Payment Method</label>
               <select
                 name="paymentMethod"
-                id="paymentMethod"
                 value={formData.paymentMethod}
                 onChange={handleInputChange}
                 className="mt-2 block w-full p-3 border rounded-md focus:ring focus:ring-pink-500 focus:outline-none"
@@ -173,17 +112,9 @@ const CheckoutPage = () => {
             </div>
 
             {/* Submit Button */}
-           
-            <li>
-                <Link href="/ordercompleted">
-            <button
-              type="submit"
-              className="w-full py-3 bg-[#FB2E86] text-white rounded-md font-semibold hover:bg-pink-600"
-            >
+            <button type="submit" className="w-full py-3 bg-[#FB2E86] text-white rounded-md font-semibold hover:bg-pink-600">
               Place Order
             </button>
-            </Link>
-            </li>
           </form>
         </div>
       </div>

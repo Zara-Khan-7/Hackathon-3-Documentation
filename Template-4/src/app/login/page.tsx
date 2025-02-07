@@ -92,7 +92,7 @@ function Login() {
               >
                 Log In
               </button>
-              <a href="#" className="text-sm text-red-500 hover:text-red-700 text-center">
+              <a href="/forgetpassword" className="text-sm text-red-500 hover:text-red-700 text-center">
                 Forgot Password?
               </a>
             </div>

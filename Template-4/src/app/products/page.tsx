@@ -6,6 +6,7 @@ import LatestProducts from '../components/LatestProducts';
 import TrendingProducts from '../components/TrendingProducts';
 import Footer from '../components/Footer';
 import Link from 'next/link';
+
  const page = () => {
 
   return (

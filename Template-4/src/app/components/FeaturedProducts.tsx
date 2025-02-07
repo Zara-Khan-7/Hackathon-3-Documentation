@@ -9,6 +9,7 @@ import { useRouter } from 'next/navigation';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../store/store';
 import { addToCart, removeFromCart } from '../store/cartSlice';
+import { addToWishlist, removeFromWishlist } from '../store/wishlistSlice'; // Wishlist actions
 
 type Product = {
   _id: string;
@@ -22,12 +23,13 @@ type Product = {
 
 function FeaturedProducts() {
   const [products, setProducts] = useState<Product[]>([]);
-  const [wishlist, setWishlist] = useState<Product[]>([]);
   const [showAll, setShowAll] = useState(false);
+  const [loading, setLoading] = useState(true); // Added loading state
   const router = useRouter();
   const dispatch = useDispatch();
 
   const cartItems = useSelector((state: RootState) => state.cart.items);
+  const wishlistItems = useSelector((state: RootState) => state.wishlist.items); // Redux wishlist
 
   const goToProductDetail = (id: string) => {
     router.push(`/productdetail/${id}`);
@@ -49,8 +51,10 @@ function FeaturedProducts() {
       try {
         const sanityProducts = await client.fetch(query);
         setProducts(sanityProducts);
+        setLoading(false); // Set loading to false once data is fetched
       } catch (error) {
         console.error('Failed to fetch products:', error);
+        setLoading(false); // Set loading to false even if there is an error
       }
     };
 
@@ -58,10 +62,13 @@ function FeaturedProducts() {
   }, []);
 
   const handleAddToCart = (product: Product) => {
+    const toastId = `add-to-cart-${product._id}`;
+    
     if (cartItems.some((item) => item.id === product._id)) {
-      toast.info(`${product.name} is already in the cart!`, { autoClose: 2000 });
+      toast.info(`${product.name} is already in the cart!`, { toastId });
       return;
     }
+  
     dispatch(
       addToCart({
         id: product._id,
@@ -71,36 +78,41 @@ function FeaturedProducts() {
         img: product.imageUrl,
       })
     );
-    toast.success(`${product.name} added to cart!`, { autoClose: 2000 });
+    toast.success(`${product.name} added to cart!`, { toastId, autoClose:1000 });
   };
-
-  const handleRemoveFromCart = (productId: string) => {
-    dispatch(removeFromCart(productId));
-    toast.error(`Item removed from cart!`, { autoClose: 2000 });
+  
+  const handleRemoveFromCart = (product: Product) => {
+    const toastId = `remove-from-cart-${product._id}`;
+    
+    dispatch(removeFromCart(product._id));
+    toast.error(`${product.name} removed from cart!`, { toastId });
   };
-
+  
   const toggleWishlist = (product: Product) => {
-    const isInWishlist = wishlist.some((item) => item._id === product._id);
+    const isInWishlist = wishlistItems.some((item) => item._id === product._id);
     const toastId = `wishlist-${product._id}`;
-
+  
     if (isInWishlist) {
-      toast.info(`${product.name} removed from wishlist!`, { toastId, autoClose: 2000 });
-      setWishlist(wishlist.filter((item) => item._id !== product._id));
+      toast.info(`${product.name} removed from wishlist!`, { toastId });
+      dispatch(removeFromWishlist(product._id)); // Remove from wishlist using Redux
     } else {
-      toast.success(`${product.name} added to wishlist!`, { toastId, autoClose: 2000 });
-      setWishlist([...wishlist, product]);
+      toast.success(`${product.name} added to wishlist!`, { toastId });
+      dispatch(addToWishlist(product)); // Add to wishlist using Redux
     }
   };
-
+  
   const displayedProducts = showAll ? products : products.slice(1, 5);
 
   return (
-    <>
-      <div className="w-full bg-white py-20">
-        <ToastContainer position="top-right" autoClose={2000} />
+    <div className="w-full bg-white py-20">
+      <ToastContainer autoClose={1000} />
 
-        <h2 className="text-black text-4xl text-center mb-16 font-bold">Featured Products</h2>
+      <h2 className="text-black text-4xl text-center mb-16 font-bold">Featured Products</h2>
 
+      {/* Show loading message while products are being fetched */}
+      {loading ? (
+        <div className="text-center text-xl font-semibold">Loading products...</div>
+      ) : (
         <div className="w-full max-w-screen-xl mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8">
           {displayedProducts.map((product) => (
             <div key={product._id} className="relative group">
@@ -110,7 +122,7 @@ function FeaturedProducts() {
                   width={200}
                   height={250}
                   alt={product.name}
-                  className=" w-[200px] h-[250px] transition-all duration-300 group-hover:scale-105"
+                  className="w-[200px] h-[250px] transition-all duration-300 group-hover:scale-105"
                 />
 
                 <div className="absolute top-3 right-3">
@@ -118,7 +130,7 @@ function FeaturedProducts() {
                     onClick={() => toggleWishlist(product)}
                     className="text-red-500 text-2xl hover:text-red-700 transition-colors"
                   >
-                    {wishlist.some((item) => item._id === product._id) ? (
+                    {wishlistItems.some((item) => item._id === product._id) ? (
                       <AiFillHeart />
                     ) : (
                       <AiOutlineHeart />
@@ -146,9 +158,9 @@ function FeaturedProducts() {
                 {cartItems.some((item) => item.id === product._id) && (
                   <button
                     className="mt-2 w-full py-2 text-sm bg-red-500 rounded-none hover:bg-red-700 transition-colors text-white"
-                    onClick={() => handleRemoveFromCart(product._id)}
+                    onClick={() => handleRemoveFromCart(product)}
                   >
-                    Remove From Cart
+                    Remove {product.name} From Cart
                   </button>
                 )}
               </div>
@@ -164,18 +176,19 @@ function FeaturedProducts() {
             </div>
           ))}
         </div>
-        {products.length > 4 && (
-          <div className="text-center mt-10">
-            <button
-              className="px-6 py-3 bg-violet-500 text-white text-lg rounded hover:bg-violet-800 transition-all"
-              onClick={() => setShowAll(!showAll)}
-            >
-              {showAll ? 'View Less' : 'View All'}
-            </button>
-          </div>
-        )}
-      </div>
-    </>
+      )}
+
+      {products.length > 4 && (
+        <div className="text-center mt-10">
+          <button
+            className="px-6 py-3 bg-violet-500 text-white text-lg rounded hover:bg-violet-800 transition-all"
+            onClick={() => setShowAll(!showAll)}
+          >
+            {showAll ? 'View Less' : 'View All'}
+          </button>
+        </div>
+      )}
+    </div>
   );
 }
 

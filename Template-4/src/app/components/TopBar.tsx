@@ -26,25 +26,21 @@ const TopBar = () => {
 
         {/* Right Section */}
         <div className="flex items-center gap-4">
-          {/* Language Selector */}
-          <div
-            className="relative cursor-pointer flex items-center gap-1"
-            onMouseEnter={() => setLanguageDropdown(true)}
-            onMouseLeave={() => setLanguageDropdown(false)}
-          >
-            <span>English</span>
-            <span className="text-xs">▼</span>
-            {languageDropdown && (
-              <div className="absolute top-8 bg-white text-black rounded shadow-md p-2 z-50">
-                <div className="hover:bg-gray-200 px-4 py-1 cursor-pointer">English</div>
-                <div className="hover:bg-gray-200 px-4 py-1 cursor-pointer">Spanish</div>
-                <div className="hover:bg-gray-200 px-4 py-1 cursor-pointer">French</div>
-                <div className="hover:bg-gray-200 px-4 py-1 cursor-pointer">German</div>
-              </div>
-            )}
-          </div>
+              {/* Language Dropdown */}
+              <select className="hidden md:block bg-[#7E33E0] text-white text-[12px] sm:text-[15px] border-none outline-none rounded  py-1 cursor-pointer">
+            <option value="english">English</option>
+            <option value="urdu">Urdu</option>
+            <option value="french">French</option>
+          </select>
 
-          {/* Currency Selector */}
+          {/* Currency Dropdown */}
+          <select className="hidden md:block bg-[#7E33E0] text-white text-[12px] sm:text-[15px] border-none outline-none rounded  py-1 cursor-pointer">
+            <option value="usd">USD</option>
+            <option value="eur">EUR</option>
+            <option value="pkr">PKR</option>
+          </select>
+
+          {/* Currency Selector
           <div
             className="relative cursor-pointer flex items-center gap-1 text-sm-hide"
             onMouseEnter={() => setCurrencyDropdown(true)}
@@ -59,7 +55,7 @@ const TopBar = () => {
                 <div className="hover:bg-gray-200 px-4 py-1 cursor-pointer">GBP</div>
               </div>
             )}
-          </div>
+          </div> */}
 
           {/* Login */}
 <li className="flex items-center gap-2 hover:text-gray-200 text-xl">

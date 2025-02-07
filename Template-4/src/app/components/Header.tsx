@@ -1,7 +1,8 @@
-'use client';
+"use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import { 
   MagnifyingGlassIcon, 
   ShoppingCartIcon, 
@@ -10,10 +11,26 @@ import {
   XMarkIcon 
 } from "@heroicons/react/24/outline";
 import TopBar from "./TopBar";
+import { IoLogInOutline } from "react-icons/io5";
+import { RiAdminLine } from "react-icons/ri";
 
 function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isPagesDropdownOpen, setIsPagesDropdownOpen] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
+  const router = useRouter();
+
+  // Check if admin is logged in
+  useEffect(() => {
+    setIsAdmin(localStorage.getItem("isAdmin") === "true");
+  }, []);
+
+  // Handle Logout
+  const handleLogout = () => {
+    localStorage.removeItem("isAdmin"); // Clear admin session
+    setIsAdmin(false);
+    router.push("/adminlogin"); // Redirect to login page
+  };
 
   return (
     <>
@@ -27,7 +44,8 @@ function Header() {
           <div className="flex items-center gap-8">
             {/* Logo */}
             <h1 className="text-3xl font-bold">
-              <Link href="/">Hekto</Link></h1>
+              <Link href="/">Hekto</Link>
+            </h1>
 
             {/* Search Bar */}
             <div className="hidden sm:flex items-center border rounded-md overflow-hidden bg-gray-100">
@@ -50,62 +68,11 @@ function Header() {
                   Home
                 </Link>
               </li>
-              
               <li>
                 <Link className="hover:text-[#FB2E86] transition-colors" href="/products">
                   Products
                 </Link>
               </li>
-
-              <li className="relative">
-                <button
-                  className="hover:text-[#FB2E86] transition-colors"
-                  onClick={() => setIsPagesDropdownOpen(!isPagesDropdownOpen)} // Toggle the Pages menu
-                >
-                  Pages
-                </button>
-                {isPagesDropdownOpen && (
-                  <ul className="absolute top-full mt-2 bg-white shadow-md rounded-md text-black text-sm">
-                      <li className="px-4 py-2 hover:bg-gray-100">
-                      <Link href="/productlist">All Products</Link>
-                    </li>
-                    <li className="px-4 py-2 hover:bg-gray-100">
-                      <Link href="/featuredproducts">Featured Products</Link>
-                    </li>
-                    <li className="px-4 py-2 hover:bg-gray-100">
-                      <Link href="/latestproducts">Latest Products</Link>
-                    </li>
-                    <li className="px-4 py-2 hover:bg-gray-100">
-                      <Link href="/trendingproducts">Trending Products</Link>
-                    </li>
-                    <li className="px-4 py-2 hover:bg-gray-100">
-                      <Link href="/cart">Cart</Link>
-                    </li>
-                    <li className="px-4 py-2 hover:bg-gray-100">
-                      <Link href="/checkout">Billing Details</Link>
-                    </li>
-                    <li className="px-4 py-2 hover:bg-gray-100">
-                      <Link href="/ordercompleted">Order Completed</Link>
-                    </li>
-                    <li className="px-4 py-2 hover:bg-gray-100">
-                      <Link href="/about">About Us</Link>
-                    </li>
-                    <li className="px-4 py-2 hover:bg-gray-100">
-                      <Link href="/contact-us">Contact Us</Link>
-                    </li>
-                    <li className="px-4 py-2 hover:bg-gray-100">
-                      <Link href="/account">My Account</Link>
-                    </li>
-                   
-                    <li className="px-4 py-2 hover:bg-gray-100">
-                      <Link href="/faq">FAQ</Link>
-                    </li>
-                  </ul>
-                )}
-              </li>
-
-
-
               <li>
                 <Link className="hover:text-[#FB2E86] transition-colors" href="/blog">
                   Blog
@@ -118,7 +85,7 @@ function Header() {
               </li>
               <li>
                 <Link className="hover:text-[#FB2E86] transition-colors" href="/contact-us">
-                Contact
+                  Contact
                 </Link>
               </li>
             </ul>
@@ -134,6 +101,34 @@ function Header() {
               <HeartIcon className="w-5 h-5" />
               <span>Wishlist</span>
             </Link>
+
+            {/* Login */}
+            <Link href="/account">
+              <div className="hover:text-[#FB2E86] transition-colors flex items-center gap-1">
+                <span>Login</span>
+                <IoLogInOutline className="w-5 h-5" />
+              </div>
+            </Link>
+
+            {/* Admin Panel (Only Show if NOT Logged In) */}
+            {!isAdmin && (
+              <Link href="/adminlogin">
+                <div className="hover:text-[#FB2E86] transition-colors flex items-center gap-1">
+                  <span>Admin</span>
+                  <RiAdminLine className="w-5 h-5" />
+                </div>
+              </Link>
+            )}
+
+            {/* Logout (Only Show if Admin is Logged In) */}
+            {isAdmin && (
+              <button
+                onClick={handleLogout}
+                className="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition"
+              >
+                Logout
+              </button>
+            )}
           </div>
 
           {/* Mobile Menu Toggle */}
@@ -149,113 +144,6 @@ function Header() {
           </button>
         </div>
       </div>
-
-      {/* Mobile Menu */}
-      {isMobileMenuOpen && (
-        <div className="sm:hidden flex flex-col items-center px-4 py-2 border-t">
-          {/* Mobile Pages Dropdown */}
-          <button
-            className="hover:text-[#FB2E86] transition-colors"
-            onClick={() => setIsPagesDropdownOpen(!isPagesDropdownOpen)}
-          >
-            Pages
-          </button>
-          {isPagesDropdownOpen && (
-            <ul className="w-full text-center bg-white shadow-md rounded-md text-black text-sm">
-              <li className="px-4 py-2 hover:bg-gray-100">
-                <Link href="/productlist">All Products</Link>
-              </li>
-              <li className="px-4 py-2 hover:bg-gray-100">
-                <Link href="/featuredproducts">Featured Products</Link>
-              </li>
-              <li className="px-4 py-2 hover:bg-gray-100">
-                <Link href="/latestproducts">Latest Products</Link>
-              </li>
-              <li className="px-4 py-2 hover:bg-gray-100">
-                <Link href="/trendingproducts">Trending Products</Link>
-              </li>
-              <li className="px-4 py-2 hover:bg-gray-100">
-                <Link href="/cart">Cart</Link>
-              </li>
-              <li className="px-4 py-2 hover:bg-gray-100">
-               <Link href="/checkout">Billing Details</Link>
-              </li>
-              <li className="px-4 py-2 hover:bg-gray-100">
-               <Link href="/ordercompleted">Order Completed</Link>
-              </li>
-              <li className="px-4 py-2 hover:bg-gray-100">
-                <Link href="/about">About Us</Link>
-              </li>
-              <li className="px-4 py-2 hover:bg-gray-100">
-                <Link href="/contact-us">Contact Us</Link>
-              </li>
-              <li className="px-4 py-2 hover:bg-gray-100">
-                <Link href="/account">My Account</Link>
-              </li>
-              <li className="px-4 py-2 hover:bg-gray-100">
-                      <Link href="/forgetpassword">Forget Password</Link>
-              </li>    
-              <li className="px-4 py-2 hover:bg-gray-100">
-                <Link href="/faq">FAQ</Link>
-                </li>
-    
-            </ul>
-          )}
-
-          {/* Mobile Navigation Links */}
-          <ul className="w-full text-center">
-            <li>
-              <Link className="block py-2 hover:text-[#FB2E86]" href="/">
-                Home
-              </Link>
-            </li>
-            <li>
-              <Link className="block py-2 hover:text-[#FB2E86]" href="/products">
-                Products
-              </Link>
-            </li>
-            <li>
-              <Link className="block py-2 hover:text-[#FB2E86]" href="/blog">
-                Blog
-              </Link>
-            </li>
-            <li>
-              <Link className="block py-2 hover:text-[#FB2E86]" href="/shoplist">
-                Shop
-              </Link>
-            </li>
-            <li>
-              <Link className="block py-2 hover:text-[#FB2E86]" href="/account">
-                My Account
-              </Link>
-            </li>
-          </ul>
-
-          {/* Mobile Search Bar */}
-          <div className="flex items-center border rounded-md overflow-hidden bg-gray-100 px-4 py-2 mx-4 mt-4">
-            <input
-              type="text"
-              placeholder="Search"
-              className="w-full px-3 py-2 text-sm outline-none bg-transparent"
-            />
-            <button className="p-2 bg-[#FB2E86] text-white hover:bg-[#F94C9B] transition-colors">
-              <MagnifyingGlassIcon className="w-5 h-5" />
-            </button>
-          </div>
-
-          {/* Mobile Cart and Wishlist */}
-          <div className="flex justify-around px-4 py-2 border-t">
-            <Link href="/cart" className="flex items-center gap-1 text-sm hover:text-[#FB2E86]">
-              <ShoppingCartIcon className="w-5 h-5" />
-              <span>Cart</span>
-            </Link>
-            <Link href="/wishlist" className="flex items-center gap-1 text-sm hover:text-[#FB2E86]">
-              <HeartIcon className="w-5 h-5" />
-              <span>Wishlist</span>
-            </Link>
-          </div>
-        </div>
-      )}
     </>
   );
 }

@@ -2,6 +2,8 @@ import localFont from "next/font/local";
 import "./globals.css";
 import CartProvider from "./components/CartProvider";
 import { Metadata } from "next";
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 // Load custom fonts with variable definitions for easy reference in CSS
@@ -31,7 +33,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
   return (
     <html lang="en">
       <body>
-        <CartProvider>{children}</CartProvider>
+        <CartProvider> <ToastContainer autoClose={2000} />{children}</CartProvider>
       </body>
     </html>
   );

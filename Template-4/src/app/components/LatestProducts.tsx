@@ -24,6 +24,7 @@ function LatestProducts() {
   const [products, setProducts] = useState<Product[]>([]);
   const [wishlist, setWishlist] = useState<Product[]>([]);
   const [showAll, setShowAll] = useState(false);
+  const [loading, setLoading] = useState(true); // Added loading state
   const router = useRouter();
   const dispatch = useDispatch();
 
@@ -47,12 +48,14 @@ function LatestProducts() {
         }
       `;
       try {
-        const sanityProducts = await client.fetch(query);
-        setProducts(sanityProducts);
-      } catch (error) {
-        console.error('Failed to fetch products:', error);
-      }
-    };
+            const sanityProducts = await client.fetch(query);
+            setProducts(sanityProducts);
+            setLoading(false); // Set loading to false once data is fetched
+          } catch (error) {
+            console.error('Failed to fetch products:', error);
+            setLoading(false); // Set loading to false even if there is an error
+          }
+        };
 
     fetchProducts();
   }, []);
@@ -100,7 +103,10 @@ function LatestProducts() {
         <ToastContainer position="top-right" autoClose={2000} />
 
         <h2 className="text-black text-4xl text-center mb-16 font-bold">Latest Products</h2>
-
+ {/* Show loading message while products are being fetched */}
+ {loading ? (
+        <div className="text-center text-xl font-semibold">Loading products...</div>
+      ) : (
         <div className="w-full max-w-screen-xl mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8">
           {displayedProducts.map((product) => (
             <div key={product._id} className="relative group">
@@ -164,6 +170,7 @@ function LatestProducts() {
             </div>
           ))}
         </div>
+      )}
         {products.length > 4 && (
           <div className="text-center mt-10">
             <button
